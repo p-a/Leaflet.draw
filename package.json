@@ -14,7 +14,7 @@
     "mocha": "~1.14.0",
     "uglify-js": "~2.4.3"
   },
-  "main": "dist/leaflet.draw.js",
+  "main": "dist/leaflet.draw-src.js",
   "directories": {
     "example": "examples"
   },
