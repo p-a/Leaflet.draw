@@ -126,6 +126,10 @@ L.EditToolbar.Edit = L.Handler.extend({
 		}
 	},
 
+    _editStyle: function(e) {
+	
+	},
+	
 	_revertLayer: function (layer) {
 		var id = L.Util.stamp(layer);
 		layer.edited = false;
