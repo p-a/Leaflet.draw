@@ -2035,8 +2035,12 @@ L.LatLngUtil = {
 	// Clones a LatLngs[], returns [][]
 	cloneLatLngs: function (latlngs) {
 		var clone = [];
-		for (var i = 0, l = latlngs.length; i < l; i++) {
-			clone.push(this.cloneLatLng(latlngs[i]));
+	    for (var j = 0, k = latlngs.length; j < k; j++) {
+			var temp = [];
+			for (var i = 0, l = latlngs[j].length; i < l; i++) {
+				temp.push(this.cloneLatLng(latlngs[j][i]));
+			}
+			clone.push(temp);
 		}
 		return clone;
 	},
@@ -2045,6 +2049,7 @@ L.LatLngUtil = {
 		return L.latLng(latlng.lat, latlng.lng);
 	}
 };
+
 
 L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
 	// Ported from the OpenLayers implementation. See https://github.com/openlayers/openlayers/blob/master/lib/OpenLayers/Geometry/LinearRing.js#L270
