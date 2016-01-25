@@ -49,7 +49,9 @@ L.Edit.Poly = L.Handler.extend({
 	removeHooks: function () {
 		var poly = this._poly;
 
-		poly.setStyle(poly.options.original);
+		var style = poly.options.original;
+		poly.options = {};
+		poly.setStyle(style);
 
 		if (poly._map) {
 			poly._map.removeLayer(this._markerGroup);
@@ -69,8 +71,9 @@ L.Edit.Poly = L.Handler.extend({
 		}
 		this._markers = [];
 
-		var latlngs = this._poly._latlngs[0] || [],
-			i, j, len, marker;
+		var flat = L.Polyline._flat(this._poly._latlngs);
+		var latlngs = flat ? this._poly._latlngs : this._poly._latlngs;
+		var	i, j, len, marker;
 
 		// TODO refactor holes implementation in Polygon to support it here
 

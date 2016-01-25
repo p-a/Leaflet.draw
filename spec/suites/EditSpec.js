@@ -59,7 +59,7 @@ describe("L.Edit", function () {
 		});
 
 		it("Should revert to original styles when editing is toggled.", function () {
-			var originalOptions = L.extend({maintainColor: false }, poly.options);
+			var originalOptions = L.extend({}, poly.options);
 
 			drawnItems.addLayer(poly);
 			edit.enable();

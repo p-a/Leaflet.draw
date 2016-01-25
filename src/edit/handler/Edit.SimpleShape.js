@@ -49,8 +49,9 @@ L.Edit.SimpleShape = L.Handler.extend({
 
 	removeHooks: function () {
 		var shape = this._shape;
-
-		shape.setStyle(shape.options.original);
+		var style = shape.options.original;
+		shape.options = {};
+		shape.setStyle(style);
 
 		if (shape._map) {
 			this._unbindMarker(this._moveMarker);

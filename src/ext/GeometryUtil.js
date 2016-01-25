@@ -1,9 +1,11 @@
 L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
 	// Ported from the OpenLayers implementation. See https://github.com/openlayers/openlayers/blob/master/lib/OpenLayers/Geometry/LinearRing.js#L270
-	geodesicArea: function (latLngs) {
+	geodesicArea: function (maybeFlatlatLngs) {
+
+		var latLngs = L.Polyline._flat(maybeFlatlatLngs) ? maybeFlatlatLngs : maybeFlatlatLngs[0];
 		var pointsCount = latLngs.length,
 			area = 0.0,
-			d2r = L.LatLng.DEG_TO_RAD,
+			d2r = 0.017453292519943295769236907684886,
 			p1, p2;
 
 		if (pointsCount > 2) {

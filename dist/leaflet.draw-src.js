@@ -1232,7 +1232,9 @@ L.Edit.Poly = L.Handler.extend({
 	removeHooks: function () {
 		var poly = this._poly;
 
-		poly.setStyle(poly.options.original);
+		var style = poly.options.original;
+		poly.options = {};
+		poly.setStyle(style);
 
 		if (poly._map) {
 			poly._map.removeLayer(this._markerGroup);
@@ -1252,8 +1254,9 @@ L.Edit.Poly = L.Handler.extend({
 		}
 		this._markers = [];
 
-		var latlngs = this._poly._latlngs[0] || [],
-			i, j, len, marker;
+		var flat = L.Polyline._flat(this._poly._latlngs);
+		var latlngs = flat ? this._poly._latlngs : this._poly._latlngs;
+		var	i, j, len, marker;
 
 		// TODO refactor holes implementation in Polygon to support it here
 
@@ -1558,8 +1561,9 @@ L.Edit.SimpleShape = L.Handler.extend({
 
 	removeHooks: function () {
 		var shape = this._shape;
-
-		shape.setStyle(shape.options.original);
+		var style = shape.options.original;
+		shape.options = {};
+		shape.setStyle(style);
 
 		if (shape._map) {
 			this._unbindMarker(this._moveMarker);
@@ -2069,10 +2073,12 @@ L.LatLngUtil = {
 
 L.GeometryUtil = L.extend(L.GeometryUtil || {}, {
 	// Ported from the OpenLayers implementation. See https://github.com/openlayers/openlayers/blob/master/lib/OpenLayers/Geometry/LinearRing.js#L270
-	geodesicArea: function (latLngs) {
+	geodesicArea: function (maybeFlatlatLngs) {
+
+		var latLngs = L.Polyline._flat(maybeFlatlatLngs) ? maybeFlatlatLngs : maybeFlatlatLngs[0];
 		var pointsCount = latLngs.length,
 			area = 0.0,
-			d2r = L.LatLng.DEG_TO_RAD,
+			d2r = 0.017453292519943295769236907684886,
 			p1, p2;
 
 		if (pointsCount > 2) {
