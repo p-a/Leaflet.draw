@@ -126,7 +126,7 @@ L.EditToolbar.Edit = L.Handler.extend({
 		}
 	},
 
-    _editStyle: function(e) {
+    _editStyle: function () {
 	
 	},
 	
