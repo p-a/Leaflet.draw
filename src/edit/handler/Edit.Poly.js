@@ -72,7 +72,7 @@ L.Edit.Poly = L.Handler.extend({
 		this._markers = [];
 
 		var flat = L.Polyline._flat(this._poly._latlngs);
-		var latlngs = flat ? this._poly._latlngs : this._poly._latlngs;
+		var latlngs = flat ? this._poly._latlngs : this._poly._latlngs[0];
 		var	i, j, len, marker;
 
 		// TODO refactor holes implementation in Polygon to support it here
@@ -101,7 +101,7 @@ L.Edit.Poly = L.Handler.extend({
 
 	_createMarker: function (latlng, index) {
 		// Extending L.Marker in TouchEvents.js to include touch.
-		var marker = new L.Marker.Touch(latlng, {
+		var marker = new L.Marker(latlng, {
 			draggable: true,
 			icon: this.options.icon,
 		});
