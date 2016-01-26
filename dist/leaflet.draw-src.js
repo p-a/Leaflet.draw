@@ -958,7 +958,9 @@ L.Draw.Circle = L.Draw.SimpleShape.extend({
 
 	_drawShape: function (latlng) {
 		if (!this._shape) {
-			this._shape = new L.Circle(this._startLatLng, this._startLatLng.distanceTo(latlng), this.options.shapeOptions);
+			var opts = L.extend({}, this.options.shapeOptions);
+			opts.radius = this._startLatLng.distanceTo(latlng);
+			this._shape = new L.Circle(this._startLatLng, opts);
 			this._map.addLayer(this._shape);
 		} else {
 			this._shape.setRadius(this._startLatLng.distanceTo(latlng));
@@ -966,7 +968,9 @@ L.Draw.Circle = L.Draw.SimpleShape.extend({
 	},
 
 	_fireCreatedEvent: function () {
-		var circle = new L.Circle(this._startLatLng, this._shape.getRadius(), this.options.shapeOptions);
+		var opts = L.extend({}, this.options.shapeOptions);
+		opts.radius = this._shape.getRadius();
+		var circle = new L.Circle(this._startLatLng, opts);
 		L.Draw.SimpleShape.prototype._fireCreatedEvent.call(this, circle);
 	},
 
@@ -1283,10 +1287,10 @@ L.Edit.Poly = L.Handler.extend({
 	},
 
 	_createMarker: function (latlng, index) {
-		// Extending L.Marker in TouchEvents.js to include touch.
 		var marker = new L.Marker(latlng, {
 			draggable: true,
 			icon: this.options.icon,
+			zIndexOffset: 10
 		});
 
 		marker._origLatLng = latlng;
@@ -1617,8 +1621,7 @@ L.Edit.SimpleShape = L.Handler.extend({
 	},
 
 	_createMarker: function (latlng, icon) {
-		// Extending L.Marker in TouchEvents.js to include touch.
-		var marker = new L.Marker.Touch(latlng, {
+		var marker = new L.Marker(latlng, {
 			draggable: true,
 			icon: icon,
 			zIndexOffset: 10

@@ -100,10 +100,10 @@ L.Edit.Poly = L.Handler.extend({
 	},
 
 	_createMarker: function (latlng, index) {
-		// Extending L.Marker in TouchEvents.js to include touch.
 		var marker = new L.Marker(latlng, {
 			draggable: true,
 			icon: this.options.icon,
+			zIndexOffset: 10
 		});
 
 		marker._origLatLng = latlng;
