@@ -161,8 +161,10 @@ L.Edit.Poly = L.Handler.extend({
 		var minPoints = L.Polygon && (this._poly instanceof L.Polygon) ? 4 : 3,
 			marker = e.target;
 
+		var flat = L.Polyline._flat(this._poly._latlngs);
+		var length = flat ? this._poly._latlngs.length : this._poly._latlngs[0].length;
 		// If removing this point would create an invalid polyline/polygon don't remove
-		if (this._poly._latlngs.length < minPoints) {
+		if (length < minPoints) {
 			return;
 		}
 
@@ -243,7 +245,16 @@ L.Edit.Poly = L.Handler.extend({
 
 			latlng.lat = marker.getLatLng().lat;
 			latlng.lng = marker.getLatLng().lng;
-			this._poly.spliceLatLngs(i, 0, latlng);
+
+			// TODO: move this to ext/LatLngUtil
+			var latlngs = this._poly.getLatLngs();
+			var flat = L.Polyline._flat(latlngs);
+			if (flat) {
+				latlngs.splice(i, 0, latlng);
+			} else {
+				latlngs[0].splice(i, 0, latlng);
+			}
+			this._poly.setLatLngs(latlngs);
 			this._markers.splice(i, 0, marker);
 
 			marker.setOpacity(1);

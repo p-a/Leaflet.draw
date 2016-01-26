@@ -35,4 +35,5 @@ L.LatLngUtil = {
 	cloneLatLng: function (latlng) {
 		return L.latLng(latlng.lat, latlng.lng);
 	}
+
 };
